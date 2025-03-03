@@ -62,7 +62,7 @@ const BannerHome = () => {
                                 <div className="absolute top-0 w-full h-full bg-gradient-to-t from-neutral-900 to-transparent">
                                 </div>
                                 <div className="container mx-auto ">
-                                    <div className="w-full absolute top-10 max-w-md px-3">
+                                    <div className="w-full absolute top-10 max-w-md px-3 ">
                                         <h2 className="font-bold text-2xl lg:text-4xl text-white drop-shadow-2xl">{data?.title || data?.name}</h2>
                                         <p className="text-white line-clamp-4 my-3">{data.overview}</p>
                                         <div className=" flex items-center gap-4 text-white">

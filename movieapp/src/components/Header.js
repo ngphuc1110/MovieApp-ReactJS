@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import logo from '../assets/logo.png'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import userIcon from '../assets/user.png'
 import { FaSearch } from "react-icons/fa";
 import { navigation } from '../contants/Navigation';
 
 const Header = () => {
-
-    const [searchInput, setSearchInput] = useState("")
+    const location = useLocation()
+    const removeSpace = location?.search?.slice(3)?.split("%20")?.join(" ")
+    const [searchInput, setSearchInput] = useState(removeSpace)
     const navigate = useNavigate()
-
-
 
     useEffect(() => {
         if (searchInput) {
@@ -23,7 +22,7 @@ const Header = () => {
     }
 
     return (
-        <div className='fixed top-0 w-full h-16 bg-neutral-800 bg-opacity-80 z-40'>
+        <div className='fixed top-0 w-full h-16 bg-black bg-opacity-70 z-40'>
             <div className='container mx-auto px-3 flex items-center h-full'>
                 <Link to={'/'}>
                     <img
@@ -54,7 +53,7 @@ const Header = () => {
                             onChange={(e) => setSearchInput(e.target.value)}
                             value={searchInput}
                         />
-                        <button className=' text-white'>
+                        <button className='  text-white lg:block hidden'>
                             <FaSearch />
                         </button>
                     </form>
