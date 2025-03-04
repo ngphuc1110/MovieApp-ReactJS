@@ -19,8 +19,6 @@ function App() {
       );
 
       dispatch(setBannerData(filteredData));
-      // console.log("responseBannerData", response.data.results)
-      //console.log("filteredData", filteredData)
     } catch (error) {
       console.log("error", error);
     }
@@ -41,10 +39,10 @@ function App() {
   return (
     <main className="pb-14 lg:pb-0">
       <Header />
-      <div className="min-h-[70vh]">
+      <div className="min-h-[91vh]">
         <Outlet />
       </div>
-      <Footer />
+      <Footer className='py-2' />
       <MobileNavigation />
     </main>
   );

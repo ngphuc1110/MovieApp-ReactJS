@@ -6,6 +6,8 @@ import Card from '../components/Card'
 const SearchPage = () => {
     const location = useLocation()
     const [data, setData] = useState([])
+    const [search, setSearch] = useState("")
+    const query = location?.search?.slice(3)
     const [page, setPage] = useState(1)
     const navigate = useNavigate()
 
@@ -29,9 +31,12 @@ const SearchPage = () => {
     }
 
     useEffect(() => {
-        setPage(1)
-        setData([])
-        fetchData()
+        if (query) {
+            setPage(1)
+            setData([])
+            fetchData()
+            setSearch(query.split("%20").join(" "))
+        }
     }, [location?.search])
 
     const handleScroll = () => {
@@ -41,7 +46,9 @@ const SearchPage = () => {
     }
 
     useEffect(() => {
-        fetchData()
+        if (query) {
+            fetchData()
+        }
     }, [page])
 
     useEffect(() => {
@@ -56,6 +63,7 @@ const SearchPage = () => {
                     className='px-4 py-1 text-lg w-full bg-white rounded-full text-neutral-800'
                     type='text'
                     placeholder='Search here...'
+                    value={search}
                     onChange={(e) => navigate(`/search?q=${e.target.value}`)}
                 />
             </div>

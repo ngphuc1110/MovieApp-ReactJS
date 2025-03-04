@@ -27,14 +27,14 @@ const BannerHome = () => {
     }
 
     useEffect(() => {
-        // const interval = setInterval(() => {
-        //     if (currentImage < bannerData.length - 1) {
-        //         setCurrentImage(preve => preve + 1)
-        //     } else
-        //         setCurrentImage(0)
-        // }, 2000)
-        // return () => clearInterval(interval)
-    }, [bannerData, imageURL])
+        const interval = setInterval(() => {
+            if (currentImage < bannerData.length - 1) {
+                setCurrentImage(preve => preve + 1)
+            } else
+                setCurrentImage(0)
+        }, 5000)
+        return () => clearInterval(interval)
+    }, [bannerData, imageURL, currentImage])
     return (
         <section className="w-full h-full ">
             <div className="flex min-h-full max-h-[150vh] overflow-hidden">
@@ -43,7 +43,7 @@ const BannerHome = () => {
 
                         return (
                             <div key={data.id + "bannerHome" + index} className="min-w-full min-h-[450px] lg:min-h-full overflow-hidden relative group transition-all" style={{ transform: `translateX(-${currentImage * 100}%)` }}>
-                                <div className="h-full w-full">
+                                <div className="lg:min-h-[350px]  lg:max-h-[530px] h-full w-full first-line:w-full">
                                     <img src={imageURL + data.backdrop_path}
                                         className="h-full w-full object-cover"
                                     />
@@ -62,7 +62,7 @@ const BannerHome = () => {
                                 <div className="absolute top-0 w-full h-full bg-gradient-to-t from-neutral-900 to-transparent">
                                 </div>
                                 <div className="container mx-auto ">
-                                    <div className="w-full absolute top-10 max-w-md px-3 ">
+                                    <div className="w-full absolute bottom-0 max-w-md px-3 ">
                                         <h2 className="font-bold text-2xl lg:text-4xl text-white drop-shadow-2xl">{data?.title || data?.name}</h2>
                                         <p className="text-white line-clamp-4 my-3">{data.overview}</p>
                                         <div className=" flex items-center gap-4 text-white">
