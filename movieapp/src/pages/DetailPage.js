@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useFetchDetail from '../hooks/useFetchDetail';
 import { useSelector } from 'react-redux';
@@ -6,6 +6,8 @@ import moment from 'moment';
 import Divider from '../components/Divider';
 import useFetch from '../hooks/useFetch';
 import HorizontalScrollCard from '../components/HorizontalScrollCard';
+import VideoPlay from '../components/VideoPlay';
+
 const DetailPage = () => {
     const params = useParams()
     const imageURL = useSelector((state) => state.movieData.imageURL);
@@ -13,7 +15,9 @@ const DetailPage = () => {
     const { data: castData } = useFetchDetail(`/${params?.explore}/${params?.id}/credits`)
     const { data: similarData } = useFetch(`/${params?.explore}/${params?.id}/similar`)
     const { data: recommendationsData } = useFetch(`/${params?.explore}/${params?.id}/recommendations`)
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const [playVideo, setPlayVideo] = useState(false)
+    const [playVideoData, setPlayVideoData] = useState("")
+    window.scrollTo({ top: 20, behavior: "smooth" });
 
     const director = castData?.crew?.filter(el => el?.job === "Director")?.map(el => el?.name).join(", ")
     const writer = castData?.crew?.filter(el => el?.job === "Writer")?.map(el => el?.name).join(", ")
@@ -23,7 +27,10 @@ const DetailPage = () => {
     // const editor = castData?.crew?.filter(el => el?.job === "Editor")?.map(el => el?.name).join(", ")
     // const specialEffectsMakeupArtist = castData?.crew?.filter(el => el?.job === "Special Effects Makeup Artist")?.map(el => el?.name).join(", ")
     // const artDirection = castData?.crew?.filter(el => el?.job === "Art Direction")?.map(el => el?.name).join(", ")
-
+    const handlePlayVideo = (data) => {
+        setPlayVideoData(data)
+        setPlayVideo(true)
+    }
 
     return (
         <div className='pb-5'>
@@ -41,8 +48,12 @@ const DetailPage = () => {
                 <div className='lg:-mt-32 relative mx-auto w-fit lg:mx-0 my-6'>
                     <img
                         src={imageURL + data?.poster_path}
-                        className='lg:min-h-[384px] lg:min-w-[280px] w-80 h-96 object-cover rounded'
+                        className='lg:min-h-[384px] lg:min-w-[280px] w-60 h-80 object-cover rounded'
                     />
+                    <button onClick={() => handlePlayVideo(data)}
+                        className='mt-3 w-full h-14 py-2 px-4 text-center bg-white text-black rounded font-bold text-lg hover:bg-gradient-to-l from-red-500 to-orange-500 hover:scale-105 transition-all'>
+                        Play
+                    </button>
                 </div>
                 <div className='pt-3'>
                     <h2 className='text-3xl font-bold text-white'>{data?.title || data?.name}</h2>
@@ -111,7 +122,11 @@ const DetailPage = () => {
                 <HorizontalScrollCard data={similarData} heading={`Similar ` + params?.explore} media_type={params?.explore} />
                 <HorizontalScrollCard data={recommendationsData} heading={`Recommendations ` + params?.explore} media_type={params?.explore} />
             </div>
-
+            {
+                playVideo && (
+                    <VideoPlay data={playVideoData} close={() => setPlayVideo(false)} media_type={params?.explore} />
+                )
+            }
 
         </div>
     )
